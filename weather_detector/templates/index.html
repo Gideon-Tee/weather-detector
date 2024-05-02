@@ -33,6 +33,7 @@
     </div>
     {% endblock %}
 
+    {% if data.country_code %}
     {% block weather_results %}
     <h1 class="text-center text-muted">{{city}}</h1>
 
@@ -40,27 +41,34 @@
       <table class="table table-striped w-50">
         <tr>
           <td>Country code</td>
-          <td>xxx</td>
+          <td>{{data.country_code}}</td>
         </tr>
         <tr>
-          <td>Cordinates</td>
-          <td>xxxxxxx</td>
+          <td>Weather description</td>
+          <td>{{data.weather_description}}</td>
         </tr>
+        <!-- <tr>
+          <td>Cordinates</td>
+          <td>{{data.coordinate}}</td>
+        </tr> -->
         <tr>
           <td>Temperature</td>
-          <td>temperature</td>
+          <td>{{data.temp}}</td>
         </tr>
         <tr>
           <td>Pressure</td>
-          <td>pressure</td>
+          <td>{{data.pressure}}</td>
         </tr>
         <tr>
           <td>Humidity</td>
-          <td>humidity</td>
+          <td>{{data.humidity}}</td>
         </tr>
       </table>
     </div>
 
     {% endblock %}
+    {% else %}
+    <h1>The city, {{city}} could not be found</h1>
+    {% endif %}
   </body>
 </html>
