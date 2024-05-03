@@ -25,7 +25,7 @@
     <div class="container d-flex w-100 justify-content-center align-items-center">
       <form action="" method="post" class="form w-100 d-flex justify-content-center align-items-center">
         {% csrf_token %}
-        <input type="text" name="city" class=" d-inline w-50 m-2">
+        <input type="text" name="city" class=" d-inline w-50 m-2" placeholder="Search city">
         <button type="submit" name="button">
           <i class="fas fa-search d-inline p-2"></i>
         </button>
@@ -33,6 +33,9 @@
     </div>
     {% endblock %}
 
+    {% if message %}
+    <h4 class="alert alert-danger text-center">{{message}}</h4>
+    {% endif %}
     {% if data.country_code %}
     {% block weather_results %}
     <h1 class="text-center text-muted">{{city}}</h1>
@@ -67,8 +70,6 @@
     </div>
 
     {% endblock %}
-    {% else %}
-    <h1>The city, {{city}} could not be found</h1>
     {% endif %}
   </body>
 </html>
