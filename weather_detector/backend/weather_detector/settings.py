@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-l4h#jqy6bmcm7@f)r8opae&)n!6gv(od=qx84mj7jyk)-9r(qd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["0.0.0.0","127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -55,7 +55,7 @@ ROOT_URLCONF = 'weather_detector.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['BASE_DIR', 'templates'],
+        'DIRS': [BASE_DIR/'frontend/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,7 +67,7 @@ TEMPLATES = [
         },
     },
 ]
-
+print(BASE_DIR)
 WSGI_APPLICATION = 'weather_detector.wsgi.application'
 
 

@@ -1,4 +1,4 @@
-!<!DOCTYPE html>
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -22,10 +22,10 @@
       <h6 class="display-6 p-3">Weather Detector</h6>
     </div>
     {% block form %}
-    <div class="container d-flex w-100 justify-content-center align-items-center">
+    <div class="container mt-3 d-flex w-100 justify-content-center align-items-center">
       <form action="" method="post" class="form w-100 d-flex justify-content-center align-items-center">
         {% csrf_token %}
-        <input type="text" name="city" class=" d-inline w-50 m-2" placeholder="Search city">
+        <input type="text" name="city" class="p-1 d-inline w-50 m-2" placeholder="city name">
         <button type="submit" name="button">
           <i class="fas fa-search d-inline p-2"></i>
         </button>
@@ -51,7 +51,7 @@
           <td>{{data.weather_description}}</td>
         </tr>
         <!-- <tr>
-          <td>Cordinates</td>
+          <td>Coordinates</td>
           <td>{{data.coordinate}}</td>
         </tr> -->
         <tr>
