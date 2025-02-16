@@ -1,75 +1,75 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
+<html lang="en">
+<head>
     <title>Weather Detector</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width; initial-scale=1">
-    <!-- font-awesome icons -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <!-- bootstrap5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"
-        />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous">
-    </script>
-  </head>
-  <body style="padding-top:100px">
-    <div class="row text-center bg-secondary text-light w-100 fixed-top end-0">
-      <h6 class="display-6 p-3">Weather Detector</h6>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body style="padding-top:100px">
+    <div class="row text-center bg-secondary text-light w-100 fixed-top">
+        <h6 class="display-6 p-3">Weather Detector</h6>
     </div>
-    {% block form %}
+
     <div class="container mt-3 d-flex w-100 justify-content-center align-items-center">
-      <form action="" method="post" class="form w-100 d-flex justify-content-center align-items-center">
-        {% csrf_token %}
-        <input type="text" name="city" class="p-1 d-inline w-50 m-2" placeholder="city name">
-        <button type="submit" name="button">
-          <i class="fas fa-search d-inline p-2"></i>
-        </button>
-      </form>
-    </div>
-    {% endblock %}
-
-    {% if message %}
-    <h4 class="alert alert-danger text-center">{{message}}</h4>
-    {% endif %}
-    {% if data.country_code %}
-    {% block weather_results %}
-    <h1 class="text-center text-muted">{{city}}</h1>
-
-    <div class="d-flex justify-content-center align-items-center">
-      <table class="table table-striped w-50">
-        <tr>
-          <td>Country code</td>
-          <td>{{data.country_code}}</td>
-        </tr>
-        <tr>
-          <td>Weather description</td>
-          <td>{{data.weather_description}}</td>
-        </tr>
-        <!-- <tr>
-          <td>Coordinates</td>
-          <td>{{data.coordinate}}</td>
-        </tr> -->
-        <tr>
-          <td>Temperature</td>
-          <td>{{data.temp}}</td>
-        </tr>
-        <tr>
-          <td>Pressure</td>
-          <td>{{data.pressure}}</td>
-        </tr>
-        <tr>
-          <td>Humidity</td>
-          <td>{{data.humidity}}</td>
-        </tr>
-      </table>
+        <form id="weather-form" class="form w-100 d-flex justify-content-center align-items-center">
+            <input type="text" id="city" name="city class="p-1 d-inline w-50 m-2" placeholder="Enter city name" required>
+            <button type="submit">
+                <i class="fas fa-search d-inline p-2"></i>
+            </button>
+        </form>
     </div>
 
-    {% endblock %}
-    {% endif %}
-  </body>
+    <h4 id="message" class="alert alert-danger text-center d-none"></h4>
+
+    <div id="weather-container" class="d-none">
+        <h1 class="text-center text-muted" id="city-name"></h1>
+
+        <div class="d-flex justify-content-center align-items-center">
+            <table class="table table-striped w-50">
+                <tr><td>Country code</td><td id="country-code"></td></tr>
+                <tr><td>Weather description</td><td id="weather-description"></td></tr>
+                <tr><td>Temperature</td><td id="temp"></td></tr>
+                <tr><td>Pressure</td><td id="pressure"></td></tr>
+                <tr><td>Humidity</td><td id="humidity"></td></tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("weather-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const city = document.getElementById("city").value;
+
+            const response = await fetch("http://127.0.0.1:8000/", {  // Update this URL if needed
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ city: city })
+            });
+
+            const messageEl = document.getElementById("message");
+            const weatherContainer = document.getElementById("weather-container");
+
+            if (response.ok) {
+                const result = await response.json();
+                document.getElementById("city-name").innerText = result.city;
+                document.getElementById("country-code").innerText = result.data.country_code;
+                document.getElementById("weather-description").innerText = result.data.weather_description;
+                document.getElementById("temp").innerText = result.data.temp;
+                document.getElementById("pressure").innerText = result.data.pressure;
+                document.getElementById("humidity").innerText = result.data.humidity;
+
+                weatherContainer.classList.remove("d-none");
+                messageEl.classList.add("d-none");
+            } else {
+                const errorResult = await response.json();
+                messageEl.innerText = errorResult.message;
+                messageEl.classList.remove("d-none");
+                weatherContainer.classList.add("d-none");
+            }
+        });
+    </script>
+</body>
 </html>

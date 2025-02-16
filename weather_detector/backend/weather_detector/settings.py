@@ -37,12 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'weather_app'
+    'weather_app',
+    'corsheaders'
 ]
 
+# Disable CSRF check for API requests (only for development)
+from django.middleware.csrf import CsrfViewMiddleware
+CSRF_COOKIE_SECURE = False
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -55,7 +60,7 @@ ROOT_URLCONF = 'weather_detector.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/'frontend/templates/'],
+        'DIRS': ['/usr/share/nginx/html'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,6 +85,16 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1", "http://localhost", "http://0.0.0.0"]
+
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost",  # Allow frontend (update if using a domain)
+#     "http://127.0.0.1",
+# ]
+
+
 
 
 # Password validation

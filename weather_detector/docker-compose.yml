@@ -17,3 +17,5 @@ services:
       dockerfile: Dockerfile.frontend
     ports:
       - "80:80"
+    volumes:
+      - ./frontend/templates:/usr/share/nginx/html
